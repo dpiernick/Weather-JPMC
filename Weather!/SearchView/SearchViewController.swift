@@ -116,10 +116,8 @@ extension SearchViewController: SearchViewModelDelegate {
         
         self.searchBarTopOffset.constant = locations.isEmpty ? self.searchBarTopPadding : 0
         self.resultsTableViewHeight.constant = self.resultsTableView.contentSize.height
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.3) {
-                self.view.layoutIfNeeded()
-            }
+        UIView.animate(withDuration: 0.3) {
+            self.view.layoutIfNeeded()
         }
     }
     

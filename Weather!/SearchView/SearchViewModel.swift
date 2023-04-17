@@ -94,7 +94,6 @@ class SearchViewModel: NSObject, CLLocationManagerDelegate {
             do {
                 guard let url = URL(string: self.geoURLString(searchTerm)), task.isCancelled == false else { return }
                 let request = URLRequest(url: url)
-                print("fetch")
                 let (data, _) = try await URLSession.shared.data(for: request)
                 let locations = try? JSONDecoder().decode([Location].self, from: data)
                 DispatchQueue.main.async {

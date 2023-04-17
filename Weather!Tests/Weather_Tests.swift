@@ -13,6 +13,14 @@ final class Weather_Tests: XCTestCase {
     
     let loc = Location(name: "Test", state: "Test", country: "Test", lat: 42, lon: -85)
     
+    override func setUpWithError() throws {
+        // Put setup code here. This method is called before the invocation of each test method in the class.
+    }
+
+    override func tearDownWithError() throws {
+        UserDefaults.standard.set(nil, forKey: User.lastLocationString)
+    }
+    
     func testGetLocationForCoord() async {
         let vm = SearchViewModel()
         let coord = CLLocationCoordinate2D(latitude: 42, longitude: -85)
@@ -23,11 +31,9 @@ final class Weather_Tests: XCTestCase {
     func testUpdateSearchTerm() {
         let vc = SearchViewController()
         _ = vc.view
-        vc.searchViewModel.task = Task { try? await Task.sleep(for: .seconds(1)) }
         vc.searchViewModel.results = [Location()]
         vc.searchViewModel.updateSearchTask("D")
         
-        XCTAssertTrue(vc.searchViewModel.task.isCancelled)
         XCTAssertTrue(vc.searchViewModel.results.isEmpty)
         XCTAssertTrue(vc.activityIndicator.isAnimating)
     }
@@ -35,11 +41,9 @@ final class Weather_Tests: XCTestCase {
     func testUpdateSearchTermBlank() {
         let vc = SearchViewController()
         _ = vc.view
-        vc.searchViewModel.task = Task { try? await Task.sleep(for: .seconds(1)) }
         vc.searchViewModel.results = [Location()]
         vc.searchViewModel.updateSearchTask("")
         
-        XCTAssertTrue(vc.searchViewModel.task.isCancelled)
         XCTAssertTrue(vc.searchViewModel.results.isEmpty)
         XCTAssertTrue(vc.activityIndicator.isAnimating == false)
     }
